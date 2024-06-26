@@ -1,20 +1,64 @@
-# Configuración para PostgreSQL
-spring:
-  datasource:
-    url: jdbc:postgresql://localhost:5433/laboratorioBD
-    username: postgres
-    password: pos123
-    driver-class-name: org.postgresql.Driver
+# Configuración común a todos los perfiles
+logging:
+  level:
+    root: DEBUG
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
 
-# Configuración para MongoDB
+# Configuración específica para ms_rest_mongo
 spring:
+  profiles: mongo
+  application:
+    name: ms_rest_mongo
   data:
     mongodb:
       database: muestraDB
       uri: mongodb://root:1234@localhost:27017/
       username: root
       password: 1234
-# Configuración adicional
-logging:
-  level:
-    root: DEBUG
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    enabled: true
+    path: /mongodoc/swagger-ui.html
+server:
+  port: 0
+eureka:
+  instance:
+    instance-id: ${spring.application.name}:${random.uuid}
+
+---
+# Configuración específica para ms_rest_postgresql
+spring:
+  profiles: postgres
+  application:
+    name: ms_rest_postgresql
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    password: pos123
+    url: jdbc:postgresql://localhost:5433/laboratorioBD
+    username: postgres
+  jpa:
+    database: POSTGRESQL
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        jdbc:
+          lob:
+            non_contextual_creation: true
+    show-sql: true
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    enabled: true
+    path: /postgresdoc/swagger-ui.html
+server:
+  port: 0
+eureka:
+  instance:
+    instance-id: ${spring.application.name}:${random.uuid}
