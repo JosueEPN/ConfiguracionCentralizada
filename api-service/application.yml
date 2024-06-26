@@ -15,7 +15,7 @@ spring:
   data:
     mongodb:
       database: muestraDB
-      uri: mongodb://root:1234@localhost:27017/
+      url: mongodb://root:1234@localhost:27017/
       username: root
       password: 1234
 springdoc:
